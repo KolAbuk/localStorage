@@ -1,0 +1,28 @@
+{
+  "name": "@kolabuk/localstorage",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "scripts": {
+    "test": "node ./dist/test.js",
+    "dev": "tsc && npm run test"
+  },
+  "keywords": [
+    "localStorage",
+    "local",
+    "storage"
+  ],
+  "author": "KolAbuk",
+  "license": "ISC",
+  "files": [
+    "dist/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KolAbuk/localStorage.git"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.20",
+    "typescript": "^5.3.3"
+  }
+}
