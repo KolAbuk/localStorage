@@ -12,15 +12,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const _1 = require(".");
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const localStorage = new _1.LocalStorage();
-        let storage = localStorage.load();
-        console.log(storage);
-        localStorage.clear();
-        storage = localStorage.load();
-        console.log(storage);
-        storage.account = { email: "email", password: "password" };
-        console.log(storage);
-        localStorage.save(storage);
+        const accountStorage = new _1.LocalStorage({
+            storageFileName: "account",
+        });
+        console.log("accountStorage", accountStorage.storage);
+        accountStorage.load();
+        console.log("accountStorage", accountStorage.storage);
+        accountStorage.storage.account = { email: "email", password: "password" };
+        console.log("accountStorage", accountStorage.storage);
+        accountStorage.save();
+        const sessionStorage = new _1.LocalStorage({
+            storageFileName: "session",
+        });
+        console.log("sessionStorage", sessionStorage.storage);
+        sessionStorage.load();
+        console.log("sessionStorage", sessionStorage.storage);
+        sessionStorage.storage = {
+            session: { id: "UUIDv4", token: "token" },
+            timestamp: new Date().getTime(),
+        };
+        console.log("sessionStorage", sessionStorage.storage);
+        sessionStorage.save();
     }
     catch (e) {
         console.error(e.message);

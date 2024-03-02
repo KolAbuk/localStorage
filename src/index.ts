@@ -2,32 +2,46 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 
 //
 
-export class LocalStorage<T> {
+export class LocalStorage<Storage> {
+  public storage: Storage = {} as Storage;
   private storageDirPath: string;
-  constructor(storageDirPath?: string) {
-    this.storageDirPath = storageDirPath || "./localStorage";
+  private storageFileName: string;
+  constructor(args?: { storageDirPath?: string; storageFileName?: string }) {
+    this.storageDirPath = args?.storageDirPath || "./localStorage";
+    this.storageFileName = args?.storageFileName || "./storage";
   }
-  load = (): T => {
+  load = (): void => {
     try {
-      if (!existsSync(`${this.storageDirPath}/storage.json`)) {
+      if (!existsSync(`${this.storageDirPath}/${this.storageFileName}.json`)) {
         mkdirSync(this.storageDirPath, {
           recursive: true,
         });
-        writeFileSync(`${this.storageDirPath}/storage.json`, `{}`, "utf8");
+        writeFileSync(
+          `${this.storageDirPath}/${this.storageFileName}.json`,
+          `{}`,
+          "utf8"
+        );
       }
-      const storage = JSON.parse(
-        readFileSync(`${this.storageDirPath}/storage.json`, "utf8")
-      ) as T;
-      return storage;
+      this.storage = JSON.parse(
+        readFileSync(
+          `${this.storageDirPath}/${this.storageFileName}.json`,
+          "utf8"
+        )
+      ) as Storage;
     } catch (e) {
       throw e;
     }
   };
-  save = (storage: T): void => {
+  save = (): void => {
     try {
+      if (!existsSync(`${this.storageDirPath}/${this.storageFileName}.json`)) {
+        mkdirSync(this.storageDirPath, {
+          recursive: true,
+        });
+      }
       writeFileSync(
-        `${this.storageDirPath}/storage.json`,
-        JSON.stringify(storage),
+        `${this.storageDirPath}/${this.storageFileName}.json`,
+        JSON.stringify(this.storage),
         "utf8"
       );
     } catch (e) {
@@ -36,7 +50,7 @@ export class LocalStorage<T> {
   };
   clear = (): void => {
     try {
-      writeFileSync(`${this.storageDirPath}/storage.json`, `{}`, "utf8");
+      this.storage = {} as Storage;
     } catch (e) {
       throw e;
     }

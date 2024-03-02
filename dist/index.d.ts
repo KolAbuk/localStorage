@@ -1,7 +1,12 @@
-export declare class LocalStorage<T> {
+export declare class LocalStorage<Storage> {
+    storage: Storage;
     private storageDirPath;
-    constructor(storageDirPath?: string);
-    load: () => T;
-    save: (storage: T) => void;
+    private storageFileName;
+    constructor(args?: {
+        storageDirPath?: string;
+        storageFileName?: string;
+    });
+    load: () => void;
+    save: () => void;
     clear: () => void;
 }

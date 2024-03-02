@@ -2,22 +2,38 @@ import { LocalStorage } from ".";
 
 (async () => {
   try {
-    type Storage = {
+    type AccountStorage = {
       account?: {
         email: string;
         password: string;
       };
       info?: string;
     };
-    const localStorage = new LocalStorage<Storage>();
-    let storage = localStorage.load();
-    console.log(storage);
-    localStorage.clear();
-    storage = localStorage.load();
-    console.log(storage);
-    storage.account = { email: "email", password: "password" };
-    console.log(storage);
-    localStorage.save(storage);
+    type SessionStorage = {
+      session?: { id: string; token: string };
+      timestamp?: number;
+    };
+    const accountStorage = new LocalStorage<AccountStorage>({
+      storageFileName: "account",
+    });
+    console.log("accountStorage", accountStorage.storage);
+    accountStorage.load();
+    console.log("accountStorage", accountStorage.storage);
+    accountStorage.storage.account = { email: "email", password: "password" };
+    console.log("accountStorage", accountStorage.storage);
+    accountStorage.save();
+    const sessionStorage = new LocalStorage<SessionStorage>({
+      storageFileName: "session",
+    });
+    console.log("sessionStorage", sessionStorage.storage);
+    sessionStorage.load();
+    console.log("sessionStorage", sessionStorage.storage);
+    sessionStorage.storage = {
+      session: { id: "UUIDv4", token: "token" },
+      timestamp: new Date().getTime(),
+    };
+    console.log("sessionStorage", sessionStorage.storage);
+    sessionStorage.save();
   } catch (e: any) {
     console.error(e.message);
   }

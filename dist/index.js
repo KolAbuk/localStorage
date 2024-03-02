@@ -4,25 +4,30 @@ exports.LocalStorage = void 0;
 const fs_1 = require("fs");
 //
 class LocalStorage {
-    constructor(storageDirPath) {
+    constructor(args) {
+        this.storage = {};
         this.load = () => {
             try {
-                if (!(0, fs_1.existsSync)(`${this.storageDirPath}/storage.json`)) {
+                if (!(0, fs_1.existsSync)(`${this.storageDirPath}/${this.storageFileName}.json`)) {
                     (0, fs_1.mkdirSync)(this.storageDirPath, {
                         recursive: true,
                     });
-                    (0, fs_1.writeFileSync)(`${this.storageDirPath}/storage.json`, `{}`, "utf8");
+                    (0, fs_1.writeFileSync)(`${this.storageDirPath}/${this.storageFileName}.json`, `{}`, "utf8");
                 }
-                const storage = JSON.parse((0, fs_1.readFileSync)(`${this.storageDirPath}/storage.json`, "utf8"));
-                return storage;
+                this.storage = JSON.parse((0, fs_1.readFileSync)(`${this.storageDirPath}/${this.storageFileName}.json`, "utf8"));
             }
             catch (e) {
                 throw e;
             }
         };
-        this.save = (storage) => {
+        this.save = () => {
             try {
-                (0, fs_1.writeFileSync)(`${this.storageDirPath}/storage.json`, JSON.stringify(storage), "utf8");
+                if (!(0, fs_1.existsSync)(`${this.storageDirPath}/${this.storageFileName}.json`)) {
+                    (0, fs_1.mkdirSync)(this.storageDirPath, {
+                        recursive: true,
+                    });
+                }
+                (0, fs_1.writeFileSync)(`${this.storageDirPath}/${this.storageFileName}.json`, JSON.stringify(this.storage), "utf8");
             }
             catch (e) {
                 throw e;
@@ -30,13 +35,14 @@ class LocalStorage {
         };
         this.clear = () => {
             try {
-                (0, fs_1.writeFileSync)(`${this.storageDirPath}/storage.json`, `{}`, "utf8");
+                this.storage = {};
             }
             catch (e) {
                 throw e;
             }
         };
-        this.storageDirPath = storageDirPath || "./localStorage";
+        this.storageDirPath = (args === null || args === void 0 ? void 0 : args.storageDirPath) || "./localStorage";
+        this.storageFileName = (args === null || args === void 0 ? void 0 : args.storageFileName) || "./storage";
     }
 }
 exports.LocalStorage = LocalStorage;

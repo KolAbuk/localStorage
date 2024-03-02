@@ -1,11 +1,11 @@
 {
   "name": "@kolabuk/localstorage",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
     "test": "node ./dist/test.js",
-    "dev": "tsc && npm run test"
+    "dev": "tsc && npm test"
   },
   "keywords": [
     "localStorage",
