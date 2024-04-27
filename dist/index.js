@@ -5,14 +5,13 @@ const fs_1 = require("fs");
 //
 class LocalStorage {
     constructor(args) {
-        this.storage = {};
         this.load = () => {
             try {
                 if (!(0, fs_1.existsSync)(`${this.storageDirPath}/${this.storageFileName}.json`)) {
                     (0, fs_1.mkdirSync)(this.storageDirPath, {
                         recursive: true,
                     });
-                    (0, fs_1.writeFileSync)(`${this.storageDirPath}/${this.storageFileName}.json`, `{}`, "utf8");
+                    (0, fs_1.writeFileSync)(`${this.storageDirPath}/${this.storageFileName}.json`, JSON.stringify(this.initObj), "utf8");
                 }
                 this.storage = JSON.parse((0, fs_1.readFileSync)(`${this.storageDirPath}/${this.storageFileName}.json`, "utf8"));
             }
@@ -35,14 +34,16 @@ class LocalStorage {
         };
         this.clear = () => {
             try {
-                this.storage = {};
+                this.storage = this.initObj;
             }
             catch (e) {
                 throw e;
             }
         };
-        this.storageDirPath = (args === null || args === void 0 ? void 0 : args.storageDirPath) || "./localStorage";
-        this.storageFileName = (args === null || args === void 0 ? void 0 : args.storageFileName) || "./storage";
+        this.storageDirPath = args.storageDirPath || "./localStorage";
+        this.storageFileName = args.storageFileName || "./storage";
+        this.storage = args.initObj;
+        this.initObj = args.initObj;
     }
 }
 exports.LocalStorage = LocalStorage;

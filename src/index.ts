@@ -3,12 +3,19 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 //
 
 export class LocalStorage<Storage> {
-  public storage: Storage = {} as Storage;
+  public storage: Storage;
   private storageDirPath: string;
   private storageFileName: string;
-  constructor(args?: { storageDirPath?: string; storageFileName?: string }) {
-    this.storageDirPath = args?.storageDirPath || "./localStorage";
-    this.storageFileName = args?.storageFileName || "./storage";
+  private initObj: Storage;
+  constructor(args: {
+    storageDirPath?: string;
+    storageFileName?: string;
+    initObj: Storage;
+  }) {
+    this.storageDirPath = args.storageDirPath || "./localStorage";
+    this.storageFileName = args.storageFileName || "./storage";
+    this.storage = args.initObj;
+    this.initObj = args.initObj;
   }
   load = (): void => {
     try {
@@ -18,7 +25,7 @@ export class LocalStorage<Storage> {
         });
         writeFileSync(
           `${this.storageDirPath}/${this.storageFileName}.json`,
-          `{}`,
+          JSON.stringify(this.initObj),
           "utf8"
         );
       }
@@ -50,7 +57,7 @@ export class LocalStorage<Storage> {
   };
   clear = (): void => {
     try {
-      this.storage = {} as Storage;
+      this.storage = this.initObj;
     } catch (e) {
       throw e;
     }

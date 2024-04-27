@@ -3,7 +3,7 @@ import { LocalStorage } from ".";
 (async () => {
   try {
     type AccountStorage = {
-      account?: {
+      account: {
         email: string;
         password: string;
       };
@@ -14,6 +14,9 @@ import { LocalStorage } from ".";
       timestamp?: number;
     };
     const accountStorage = new LocalStorage<AccountStorage>({
+      initObj: {
+        account: { email: "email@example.com", password: "password" },
+      },
       storageFileName: "account",
     });
     console.log("accountStorage", accountStorage.storage);
@@ -23,6 +26,7 @@ import { LocalStorage } from ".";
     console.log("accountStorage", accountStorage.storage);
     accountStorage.save();
     const sessionStorage = new LocalStorage<SessionStorage>({
+      initObj: {},
       storageFileName: "session",
     });
     console.log("sessionStorage", sessionStorage.storage);

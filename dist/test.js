@@ -13,6 +13,9 @@ const _1 = require(".");
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const accountStorage = new _1.LocalStorage({
+            initObj: {
+                account: { email: "email@example.com", password: "password" },
+            },
             storageFileName: "account",
         });
         console.log("accountStorage", accountStorage.storage);
@@ -22,6 +25,7 @@ const _1 = require(".");
         console.log("accountStorage", accountStorage.storage);
         accountStorage.save();
         const sessionStorage = new _1.LocalStorage({
+            initObj: {},
             storageFileName: "session",
         });
         console.log("sessionStorage", sessionStorage.storage);
