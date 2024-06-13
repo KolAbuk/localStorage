@@ -10,5 +10,6 @@ export declare class LocalStorage<Storage> {
     });
     load: () => void;
     save: () => void;
+    backup: () => void;
     clear: () => void;
 }

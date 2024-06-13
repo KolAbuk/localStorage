@@ -32,6 +32,19 @@ class LocalStorage {
                 throw e;
             }
         };
+        this.backup = () => {
+            try {
+                if (!(0, fs_1.existsSync)(`${this.storageDirPath}/${this.storageFileName}.backup.json`)) {
+                    (0, fs_1.mkdirSync)(this.storageDirPath, {
+                        recursive: true,
+                    });
+                }
+                (0, fs_1.writeFileSync)(`${this.storageDirPath}/${this.storageFileName}.backup.json`, JSON.stringify(this.storage), "utf8");
+            }
+            catch (e) {
+                throw e;
+            }
+        };
         this.clear = () => {
             try {
                 this.storage = this.initObj;

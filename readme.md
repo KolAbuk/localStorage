@@ -53,4 +53,5 @@ sessionStorage.storage = {
 };
 console.log("sessionStorage", sessionStorage.storage);
 sessionStorage.save();
+sessionStorage.backup();
 ```
