@@ -5,14 +5,17 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 export class LocalStorage<Storage> {
   public storage: Storage;
   private storageDirPath: string;
+  private backupDirPath: string;
   private storageFileName: string;
   private initObj: Storage;
   constructor(args: {
     storageDirPath?: string;
+    backupDirPath?: string;
     storageFileName?: string;
     initObj: Storage;
   }) {
     this.storageDirPath = args.storageDirPath || "./localStorage";
+    this.backupDirPath = args.backupDirPath || `${this.storageDirPath}/backups`;
     this.storageFileName = args.storageFileName || "./storage";
     this.storage = args.initObj;
     this.initObj = args.initObj;
@@ -58,16 +61,14 @@ export class LocalStorage<Storage> {
   backup = (): void => {
     try {
       if (
-        !existsSync(
-          `${this.storageDirPath}/${this.storageFileName}.backup.json`
-        )
+        !existsSync(`${this.backupDirPath}/${this.storageFileName}.backup.json`)
       ) {
-        mkdirSync(this.storageDirPath, {
+        mkdirSync(this.backupDirPath, {
           recursive: true,
         });
       }
       writeFileSync(
-        `${this.storageDirPath}/${this.storageFileName}.backup.json`,
+        `${this.backupDirPath}/${this.storageFileName}.backup.json`,
         JSON.stringify(this.storage),
         "utf8"
       );

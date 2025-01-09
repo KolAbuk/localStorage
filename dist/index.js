@@ -34,12 +34,12 @@ class LocalStorage {
         };
         this.backup = () => {
             try {
-                if (!(0, fs_1.existsSync)(`${this.storageDirPath}/${this.storageFileName}.backup.json`)) {
-                    (0, fs_1.mkdirSync)(this.storageDirPath, {
+                if (!(0, fs_1.existsSync)(`${this.backupDirPath}/${this.storageFileName}.backup.json`)) {
+                    (0, fs_1.mkdirSync)(this.backupDirPath, {
                         recursive: true,
                     });
                 }
-                (0, fs_1.writeFileSync)(`${this.storageDirPath}/${this.storageFileName}.backup.json`, JSON.stringify(this.storage), "utf8");
+                (0, fs_1.writeFileSync)(`${this.backupDirPath}/${this.storageFileName}.backup.json`, JSON.stringify(this.storage), "utf8");
             }
             catch (e) {
                 throw e;
@@ -54,6 +54,7 @@ class LocalStorage {
             }
         };
         this.storageDirPath = args.storageDirPath || "./localStorage";
+        this.backupDirPath = args.backupDirPath || `${this.storageDirPath}/backups`;
         this.storageFileName = args.storageFileName || "./storage";
         this.storage = args.initObj;
         this.initObj = args.initObj;
