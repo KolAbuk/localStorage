@@ -3,7 +3,9 @@ import path from "path";
 
 //
 
-export class LocalStorage<Storage> {
+//
+
+export class LocalStorageAsync<Storage> {
   public storage: Storage;
   private storageDirPath: string;
   private backupDirPath: string;

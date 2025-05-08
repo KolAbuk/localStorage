@@ -1,4 +1,4 @@
-export declare class LocalStorage<Storage> {
+export declare class LocalStorageAsync<Storage> {
     storage: Storage;
     private storageDirPath;
     private backupDirPath;

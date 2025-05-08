@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LocalStorage = void 0;
+exports.LocalStorageAsync = void 0;
 const promises_1 = require("fs/promises");
 const path_1 = __importDefault(require("path"));
 //
-class LocalStorage {
+//
+class LocalStorageAsync {
     constructor(args) {
         this.load = () => __awaiter(this, void 0, void 0, function* () {
             try {
@@ -82,4 +83,4 @@ class LocalStorage {
         this.initObj = args.initObj;
     }
 }
-exports.LocalStorage = LocalStorage;
+exports.LocalStorageAsync = LocalStorageAsync;
