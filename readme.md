@@ -12,6 +12,7 @@ npm i @kolabuk/localstorage
 
 ```javascript
 import { LocalStorage } from "@kolabuk/localstorage";
+import { LocalStorage } from "@kolabuk/localstorage/promises";
 ```
 
 ## Usage
