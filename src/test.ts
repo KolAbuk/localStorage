@@ -18,6 +18,7 @@ import { LocalStorage } from ".";
         account: { email: "email@example.com", password: "password" },
       },
       storageFileName: "account",
+      prettyFormat: 3,
     });
     console.log("accountStorage", accountStorage.storage);
     accountStorage.load();

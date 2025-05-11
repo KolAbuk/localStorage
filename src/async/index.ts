@@ -11,11 +11,13 @@ export class LocalStorageAsync<Storage> {
   private backupDirPath: string;
   private storageFileName: string;
   private initObj: Storage;
+  private prettyFormat: string | number;
   constructor(args: {
     storageDirPath?: string;
     backupDirPath?: string;
     storageFileName?: string;
     initObj: Storage;
+    prettyFormat?: string | number;
   }) {
     this.storageDirPath = path.resolve(args.storageDirPath || "./localStorage");
     this.backupDirPath = path.resolve(
@@ -24,6 +26,7 @@ export class LocalStorageAsync<Storage> {
     this.storageFileName = args.storageFileName || "storage";
     this.storage = args.initObj;
     this.initObj = args.initObj;
+    this.prettyFormat = args.prettyFormat || "";
   }
   load = async (): Promise<void> => {
     try {
@@ -37,7 +40,7 @@ export class LocalStorageAsync<Storage> {
         });
         await writeFile(
           path.join(this.storageDirPath, `${this.storageFileName}.json`),
-          JSON.stringify(this.initObj),
+          JSON.stringify(this.initObj, null, this.prettyFormat),
           "utf8"
         );
       }
@@ -64,7 +67,7 @@ export class LocalStorageAsync<Storage> {
       }
       await writeFile(
         path.join(this.storageDirPath, `${this.storageFileName}.json`),
-        JSON.stringify(this.storage),
+        JSON.stringify(this.storage, null, this.prettyFormat),
         "utf8"
       );
     } catch (e) {
@@ -73,6 +76,9 @@ export class LocalStorageAsync<Storage> {
   };
   backup = async (): Promise<void> => {
     try {
+      if (this.storage == this.initObj) {
+        await this.load();
+      }
       try {
         await access(
           path.join(this.backupDirPath, `${this.storageFileName}.backup.json`)
@@ -84,7 +90,7 @@ export class LocalStorageAsync<Storage> {
       }
       await writeFile(
         path.join(this.backupDirPath, `${this.storageFileName}.backup.json`),
-        JSON.stringify(this.storage),
+        JSON.stringify(this.storage, null, this.prettyFormat),
         "utf8"
       );
     } catch (e) {

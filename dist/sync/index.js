@@ -12,7 +12,7 @@ class LocalStorage {
                     (0, fs_1.mkdirSync)(this.storageDirPath, {
                         recursive: true,
                     });
-                    (0, fs_1.writeFileSync)(`${this.storageDirPath}/${this.storageFileName}.json`, JSON.stringify(this.initObj), "utf8");
+                    (0, fs_1.writeFileSync)(`${this.storageDirPath}/${this.storageFileName}.json`, JSON.stringify(this.initObj, null, this.prettyFormat), "utf8");
                 }
                 this.storage = JSON.parse((0, fs_1.readFileSync)(`${this.storageDirPath}/${this.storageFileName}.json`, "utf8"));
             }
@@ -27,7 +27,7 @@ class LocalStorage {
                         recursive: true,
                     });
                 }
-                (0, fs_1.writeFileSync)(`${this.storageDirPath}/${this.storageFileName}.json`, JSON.stringify(this.storage), "utf8");
+                (0, fs_1.writeFileSync)(`${this.storageDirPath}/${this.storageFileName}.json`, JSON.stringify(this.storage, null, this.prettyFormat), "utf8");
             }
             catch (e) {
                 throw e;
@@ -35,12 +35,15 @@ class LocalStorage {
         };
         this.backup = () => {
             try {
+                if (this.storage == this.initObj) {
+                    this.load();
+                }
                 if (!(0, fs_1.existsSync)(`${this.backupDirPath}/${this.storageFileName}.backup.json`)) {
                     (0, fs_1.mkdirSync)(this.backupDirPath, {
                         recursive: true,
                     });
                 }
-                (0, fs_1.writeFileSync)(`${this.backupDirPath}/${this.storageFileName}.backup.json`, JSON.stringify(this.storage), "utf8");
+                (0, fs_1.writeFileSync)(`${this.backupDirPath}/${this.storageFileName}.backup.json`, JSON.stringify(this.storage, null, this.prettyFormat), "utf8");
             }
             catch (e) {
                 throw e;
@@ -59,6 +62,7 @@ class LocalStorage {
         this.storageFileName = args.storageFileName || "./storage";
         this.storage = args.initObj;
         this.initObj = args.initObj;
+        this.prettyFormat = args.prettyFormat || "";
     }
 }
 exports.LocalStorage = LocalStorage;

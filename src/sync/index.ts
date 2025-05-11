@@ -10,17 +10,20 @@ export class LocalStorage<Storage> {
   private backupDirPath: string;
   private storageFileName: string;
   private initObj: Storage;
+  private prettyFormat: string | number;
   constructor(args: {
     storageDirPath?: string;
     backupDirPath?: string;
     storageFileName?: string;
     initObj: Storage;
+    prettyFormat?: string | number;
   }) {
     this.storageDirPath = args.storageDirPath || "./localStorage";
     this.backupDirPath = args.backupDirPath || `${this.storageDirPath}/backups`;
     this.storageFileName = args.storageFileName || "./storage";
     this.storage = args.initObj;
     this.initObj = args.initObj;
+    this.prettyFormat = args.prettyFormat || "";
   }
   load = (): void => {
     try {
@@ -30,7 +33,7 @@ export class LocalStorage<Storage> {
         });
         writeFileSync(
           `${this.storageDirPath}/${this.storageFileName}.json`,
-          JSON.stringify(this.initObj),
+          JSON.stringify(this.initObj, null, this.prettyFormat),
           "utf8"
         );
       }
@@ -53,7 +56,7 @@ export class LocalStorage<Storage> {
       }
       writeFileSync(
         `${this.storageDirPath}/${this.storageFileName}.json`,
-        JSON.stringify(this.storage),
+        JSON.stringify(this.storage, null, this.prettyFormat),
         "utf8"
       );
     } catch (e) {
@@ -62,6 +65,9 @@ export class LocalStorage<Storage> {
   };
   backup = (): void => {
     try {
+      if (this.storage == this.initObj) {
+        this.load();
+      }
       if (
         !existsSync(`${this.backupDirPath}/${this.storageFileName}.backup.json`)
       ) {
@@ -71,7 +77,7 @@ export class LocalStorage<Storage> {
       }
       writeFileSync(
         `${this.backupDirPath}/${this.storageFileName}.backup.json`,
-        JSON.stringify(this.storage),
+        JSON.stringify(this.storage, null, this.prettyFormat),
         "utf8"
       );
     } catch (e) {

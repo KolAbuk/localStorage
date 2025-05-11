@@ -28,7 +28,7 @@ class LocalStorageAsync {
                     yield (0, promises_1.mkdir)(this.storageDirPath, {
                         recursive: true,
                     });
-                    yield (0, promises_1.writeFile)(path_1.default.join(this.storageDirPath, `${this.storageFileName}.json`), JSON.stringify(this.initObj), "utf8");
+                    yield (0, promises_1.writeFile)(path_1.default.join(this.storageDirPath, `${this.storageFileName}.json`), JSON.stringify(this.initObj, null, this.prettyFormat), "utf8");
                 }
                 this.storage = JSON.parse(yield (0, promises_1.readFile)(path_1.default.join(this.storageDirPath, `${this.storageFileName}.json`), "utf8"));
             }
@@ -46,7 +46,7 @@ class LocalStorageAsync {
                         recursive: true,
                     });
                 }
-                yield (0, promises_1.writeFile)(path_1.default.join(this.storageDirPath, `${this.storageFileName}.json`), JSON.stringify(this.storage), "utf8");
+                yield (0, promises_1.writeFile)(path_1.default.join(this.storageDirPath, `${this.storageFileName}.json`), JSON.stringify(this.storage, null, this.prettyFormat), "utf8");
             }
             catch (e) {
                 throw e;
@@ -54,6 +54,9 @@ class LocalStorageAsync {
         });
         this.backup = () => __awaiter(this, void 0, void 0, function* () {
             try {
+                if (this.storage == this.initObj) {
+                    yield this.load();
+                }
                 try {
                     yield (0, promises_1.access)(path_1.default.join(this.backupDirPath, `${this.storageFileName}.backup.json`));
                 }
@@ -62,7 +65,7 @@ class LocalStorageAsync {
                         recursive: true,
                     });
                 }
-                yield (0, promises_1.writeFile)(path_1.default.join(this.backupDirPath, `${this.storageFileName}.backup.json`), JSON.stringify(this.storage), "utf8");
+                yield (0, promises_1.writeFile)(path_1.default.join(this.backupDirPath, `${this.storageFileName}.backup.json`), JSON.stringify(this.storage, null, this.prettyFormat), "utf8");
             }
             catch (e) {
                 throw e;
@@ -81,6 +84,7 @@ class LocalStorageAsync {
         this.storageFileName = args.storageFileName || "storage";
         this.storage = args.initObj;
         this.initObj = args.initObj;
+        this.prettyFormat = args.prettyFormat || "";
     }
 }
 exports.LocalStorageAsync = LocalStorageAsync;
