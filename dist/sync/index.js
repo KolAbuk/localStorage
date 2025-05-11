@@ -62,7 +62,7 @@ class LocalStorage {
         this.storageFileName = args.storageFileName || "./storage";
         this.storage = args.initObj;
         this.initObj = args.initObj;
-        this.prettyFormat = args.prettyFormat || "";
+        this.prettyFormat = args.prettyFormat;
     }
 }
 exports.LocalStorage = LocalStorage;

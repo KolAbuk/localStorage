@@ -4,7 +4,7 @@ export declare class LocalStorage<Storage> {
     private backupDirPath;
     private storageFileName;
     private initObj;
-    private prettyFormat;
+    private prettyFormat?;
     constructor(args: {
         storageDirPath?: string;
         backupDirPath?: string;

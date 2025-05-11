@@ -11,7 +11,7 @@ export class LocalStorageAsync<Storage> {
   private backupDirPath: string;
   private storageFileName: string;
   private initObj: Storage;
-  private prettyFormat: string | number;
+  private prettyFormat?: string | number;
   constructor(args: {
     storageDirPath?: string;
     backupDirPath?: string;
@@ -26,7 +26,7 @@ export class LocalStorageAsync<Storage> {
     this.storageFileName = args.storageFileName || "storage";
     this.storage = args.initObj;
     this.initObj = args.initObj;
-    this.prettyFormat = args.prettyFormat || "";
+    this.prettyFormat = args.prettyFormat;
   }
   load = async (): Promise<void> => {
     try {
